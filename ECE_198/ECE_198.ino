@@ -3,8 +3,8 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
+const int button{8};
 const int pin{A0};    // Analog pin connected to sensor
-const int button = 8;
 float sensorVolt{0};
 float RS{0};           //  Get the value of RS via in a clear air
 float R0{0};           // Get the value of R0 via in Alcohol
@@ -22,27 +22,28 @@ const float slope = (p2[1] - p1[1]) / (p2[0] - p1[0]);
 const float coord = p1[1] - p1[0] * slope;
 
 int state{0};
-int offState{0};
 
 void setup()
 {
-  lcd.init();       // Initialize the LCD display screen
+  lcd.init();       // Initialize the LCD displyay screen
   pinMode(A0, INPUT);
   pinMode(button, INPUT);
+  function(100000, 10000);
+  function(1000000, 10000);
 }
 
 void loop()
 {
-   while (state == offState)
-  {
-    state = digitalRead(button);
-  }
-  function(100000, 5000);
 }
 
 // main program
 void function(int calibrate, int endDelay)
 {
+  while (state == 0 )
+  {
+    state = digitalRead(button);
+  }
+
   state = 0;
   lcd.backlight();
   lcd.clear();
